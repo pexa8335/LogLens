@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import re # regex
+import numpy as np
 from urllib.parse import urlparse, parse_qs # urlparse & parse_qs
 from scipy.stats import entropy # Cho url_entropy ở
 
@@ -44,15 +45,7 @@ def timestamp_features(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def status_features(df):
-    """
-    Trích xuất các feature từ cột 'status' và 'size' trong log web.
 
-    Args:
-        df (pd.DataFrame): DataFrame chứa ít nhất 2 cột: 'status' (int), 'size' (int)
-
-    Returns:
-        pd.DataFrame: DataFrame gốc kèm thêm các cột đặc trưng mới.
-    """
     # Kiểm tra cột trước
     if 'status' not in df.columns or 'size' not in df.columns:
         raise ValueError("DataFrame cần có cột 'status' và 'size'.")
@@ -82,6 +75,20 @@ def status_features(df):
 
 
 from urllib.parse import urlparse
+def calculate_entropy(text_string: str) -> float:
+    """
+    Tính entropy của chuỗi ký tự (dựa trên xác suất xuất hiện ký tự).
+    """
+    import math
+    from collections import Counter
+
+    if not text_string:
+        return 0.0
+
+    counts = Counter(text_string)
+    total = len(text_string)
+    entropy = -sum((count / total) * math.log2(count / total) for count in counts.values())
+    return entropy
 
 def referrer_features(df):
     df = df.copy()

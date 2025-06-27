@@ -95,3 +95,13 @@ def parse_nginx_log(
 
     # 4) Trả kết quả
     return pd.DataFrame(parsed) if as_dataframe else parsed
+
+log_line_to_test = '108.90.232.102 - - [19/Jul/2024:07:24:21 +0000] "PUT /view?file=php://filter/convert.base64-encode/resource=index.php HTTP/1.0" 403 3575 "http://evil.com" "sqlmap/1.4.12.1#dev"'
+
+parsed_result = parse_nginx_log([log_line_to_test], as_dataframe=True)
+
+if not parsed_result.empty:
+    print("Parse successful!")
+    print(parsed_result.to_dict('records'))
+else:
+    print("Parse FAILED!")

@@ -11,19 +11,17 @@ from predictor import LogPredictor
 # --- Cấu hình ứng dụng ---
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 # Giả sử model của bạn nằm trong thư mục 'model' cùng cấp với app.py
-MODEL_PATH = os.path.join(APP_ROOT, 'model/catboost_model.joblib')
+MODEL_PATH = os.path.join(APP_ROOT, 'catboost_model.joblib')
 
 # !!! QUAN TRỌNG: Đảm bảo các danh sách này khớp 100% với lúc huấn luyện !!!
 # Tốt nhất là tải các thông tin này từ file model_config.json
-MODEL_COLUMNS = [
-    "method", "protocol", "status", "size", "hour_of_day", "day_of_week", 
-    "is_weekend", "part_of_day", "hour_sin", "hour_cos", "day_of_week_sin", 
-    "day_of_week_cos", "time_since_last_event", "status_is_client_error", 
-    "status_is_server_error", "status_is_success", "status_is_redirect", 
-    "size_is_zero", "referrer_len", "referrer_entropy", "referrer_is_empty", 
-    "referrer_domain", "referrer_is_external_or_valid"
-    # Thêm các cột user_agent và url features nếu bạn đã dùng chúng lúc train
-]
+MODEL_COLUMNS = ['method', 'protocol', 'status', 'size', 'hour_of_day', 'day_of_week', 'is_weekend', 
+                 'part_of_day', 'hour_sin', 'hour_cos', 'day_of_week_sin', 'day_of_week_cos', 'time_since_last_event', 
+                 'status_is_client_error', 'status_is_server_error', 'status_is_success', 'status_is_redirect',
+                   'size_is_zero', 'referrer_len', 'referrer_entropy', 'referrer_is_empty', 'referrer_domain',
+                     'referrer_is_external_or_valid']
+
+CATEGORICAL_FEATURES = ['method', 'protocol', 'part_of_day', 'referrer_domain']
 
 
 
@@ -59,6 +57,7 @@ try:
     log_predictor = LogPredictor(
         model_path=MODEL_PATH,
         model_columns=MODEL_COLUMNS,
+        cat_features=CATEGORICAL_FEATURES
     )
 except FileNotFoundError as e:
     print(f"CRITICAL ERROR: {e}")

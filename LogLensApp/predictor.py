@@ -13,12 +13,14 @@ from feature_engineering import (
 )
 
 class LogPredictor:
-    def __init__(self, model_path: str, model_columns: list):
+    def __init__(self, model_path: str, model_columns: list, cat_features:list):
         if not os.path.exists(model_path):
             raise FileNotFoundError(f"Model file not found at: {model_path}")
         
         self.model = joblib.load(model_path)
         self.model_columns = model_columns
+        self.categorical_features = cat_features # Lưu lại
+
         print("LogPredictor initialized and model loaded successfully.")
 
     def _create_features(self, df_raw: pd.DataFrame) -> pd.DataFrame:
@@ -37,6 +39,7 @@ class LogPredictor:
         if parsed_data.empty:
             print("Warning: No valid log lines could be parsed.")
             return [], []
+        df_featured = self._create_features(parsed_data)
 
         # 2. Tạo features
         df_featured = self._create_features(parsed_data)
@@ -51,7 +54,7 @@ class LogPredictor:
         df_final = df_featured[self.model_columns]
 
         # 4. Tạo Pool và dự đoán
-        predict_pool = Pool(df_final)
+        predict_pool = Pool(df_final, cat_features=self.categorical_features)
         
         predictions = self.model.predict(predict_pool)
         probabilities = self.model.predict_proba(predict_pool)
