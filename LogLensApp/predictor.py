@@ -1,5 +1,4 @@
 # predictor.py
-
 import pandas as pd
 import joblib
 import os
@@ -14,13 +13,12 @@ from feature_engineering import (
 )
 
 class LogPredictor:
-    def __init__(self, model_path: str, model_columns: list, cat_features: list):
+    def __init__(self, model_path: str, model_columns: list):
         if not os.path.exists(model_path):
             raise FileNotFoundError(f"Model file not found at: {model_path}")
         
         self.model = joblib.load(model_path)
         self.model_columns = model_columns
-        self.categorical_features = cat_features
         print("LogPredictor initialized and model loaded successfully.")
 
     def _create_features(self, df_raw: pd.DataFrame) -> pd.DataFrame:
@@ -53,7 +51,7 @@ class LogPredictor:
         df_final = df_featured[self.model_columns]
 
         # 4. Tạo Pool và dự đoán
-        predict_pool = Pool(df_final, cat_features=self.categorical_features)
+        predict_pool = Pool(df_final)
         
         predictions = self.model.predict(predict_pool)
         probabilities = self.model.predict_proba(predict_pool)

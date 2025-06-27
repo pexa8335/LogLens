@@ -25,14 +25,12 @@ MODEL_COLUMNS = [
     # Thêm các cột user_agent và url features nếu bạn đã dùng chúng lúc train
 ]
 
-CATEGORICAL_FEATURES = [
-    'method', 'protocol', 'part_of_day', 'referrer_domain'
-    # Thêm các cột categorical khác nếu có
-]
+
 
 # --- Khởi tạo ứng dụng Flask ---
 app = Flask(__name__)
-app.config['DATABASE'] = os.O_PATH # Giả sử bạn có dòng này
+DB_PATH = os.path.join(APP_ROOT, 'database/logs.db')
+app.config['DATABASE'] = DB_PATH
 
 # =========================================================
 # === BỔ SUNG ĐOẠN CODE BỊ THIẾU VÀO ĐÂY ===
@@ -61,7 +59,6 @@ try:
     log_predictor = LogPredictor(
         model_path=MODEL_PATH,
         model_columns=MODEL_COLUMNS,
-        cat_features=CATEGORICAL_FEATURES
     )
 except FileNotFoundError as e:
     print(f"CRITICAL ERROR: {e}")
@@ -109,9 +106,7 @@ def analyze_logs():
 
     return jsonify(results)
 
-# LogLensApp/app.py
-# (Giữ lại các phần import và khởi tạo từ câu trả lời trước)
-# ...
+
 
 @app.route('/dashboard_data')
 def get_dashboard_data():
