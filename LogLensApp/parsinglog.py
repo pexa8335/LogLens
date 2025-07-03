@@ -105,3 +105,12 @@ if not parsed_result.empty:
     print(parsed_result.to_dict('records'))
 else:
     print("Parse FAILED!")
+def parse_log_line(log_line: str) -> dict:
+    """
+    Parse 1 dòng log thành dict các trường (ip, timestamp, method, url, ...).
+    Nếu không parse được, trả về dict rỗng.
+    """
+    result = parse_nginx_log([log_line], as_dataframe=False)
+    if result and isinstance(result, list):
+        return result[0]
+    return {}

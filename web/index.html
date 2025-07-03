@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-key="loginPageTitle">หน้าเข้าสู่ระบบ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body class="bg-dark-blue-bg">
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span class="navbar-title"><span style="color:#fff;">LOG</span><span style="color:#00BCD4;">GUARD</span></span>
+        </div>
+       <ul class="navbar-links" style="margin: 0 auto;">
+    <li><a href="{{ url_for('home_page') }}">Home</a></li>
+    <li><a href="{{ url_for('dashboard_page') }}">Dashboard</a></li>
+    <li><a href="{{ url_for('chat_page') }}">Chat</a></li>
+    <li><a href="{{ url_for('detect_page') }}">Detect Anomaly Log</a></li>
+</ul>
+        <div class="navbar-buttons">
+            <!-- ปุ่มจะถูกสร้างโดย JavaScript -->
+        </div>
+    </nav>
+
+    <div class="login-container-v2">
+        <h2 class="welcome-back" data-lang-key="welcomeBack">Welcome Back 👋</h2>
+        <p class="login-subtitle" data-lang-key="loginToYourAccount">Log in to your account</p>
+        <form id="loginFormV2">
+            <div class="input-group-v2">
+                <label for="emailV2" data-lang-key="emailAddress">Email Address</label>
+                <input type="email" id="emailV2" placeholder="you@example.com" required>
+            </div>
+            <div class="input-group-v2">
+                <label for="passwordV2" data-lang-key="passwordLabel">Password</label>
+                <input type="password" id="passwordV2" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="login-btn-v2" data-lang-key="logInButton">Log In</button>
+        </form>
+        <div class="no-account-group-v2">
+            <p data-lang-key="noAccountV2">Don't have an account?</p>
+            <a href="register.html" class="signup-link-v2" data-lang-key="signUpLinkV2">Sign Up</a>
+        </div>
+    </div>
+
+    <script type="module" src="language.js"></script>
+    <script type="module" src="{{ url_for('static', filename='script.js') }}" defer></script>
+
+    <script type="module">
+    import { renderNavbarButtons } from './script.js';
+    document.addEventListener('DOMContentLoaded', renderNavbarButtons);
+    </script>
+    <script>
+    document.getElementById('loginFormV2').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const email = document.getElementById('emailV2').value;
+        const password = document.getElementById('passwordV2').value;
+        const res = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            localStorage.setItem('loggedInUserEmail', email);
+            localStorage.setItem('authToken', data.token || '');
+            alert('Login successful! Redirecting to home page...');
+            window.location.href = 'home.html';
+        } else {
+            alert(data.message || 'Login failed');
+        }
+    });
+    </script>
+</body>
+</html>
