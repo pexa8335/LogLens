@@ -60,7 +60,7 @@ LogLens consists of several main components:
 
 ## 🔥 Live Demo (Watch First!)
 
-<video controls src="Screen Recording 2025-07-03 143853.mp4" title="LogLens Demo"></video>
+[![Watch the demo](https://img.youtube.com/vi/7SMugMNYbok/0.jpg)](https://youtu.be/7SMugMNYbok)
 
 > 👆 Watch how LogLens monitors, detects, and visualizes real-time threats in seconds!
 
@@ -97,47 +97,35 @@ LogLens consists of several main components:
 
 ### Clone the Repository
 
-```bash
-
-git clone https://github.com/pexa8335/LogLens.git
-
-cd LogLens
 
 ```
+git clone https://github.com/pexa8335/LogLens.git
+cd LogLens
+```
+
 
 ### Backend Setup
 
 1. (Recommended) Create a virtual environment:
 
-    ```bash
-
-    python -m venv venv
-
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-
     ```
-
+    python -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
 
 2. Install dependencies:
 
-    ```bash
-
+    ```
     pip install -r requirements.txt
-
     ```
 
 3. Start the Flask backend:
 
-    ```bash
-
+    ```
     python app.py
-
     python worker.py
-
     python normal_traffic_generator.py
-
     python anomaly_traffic_generator.py
-
     ```
 
 You can customize the worker.py LOG_FILE_PATH to ensure it match your nginx web server.
@@ -166,9 +154,12 @@ You can customize the worker.py LOG_FILE_PATH to ensure it match your nginx web 
 
 Contributions are welcome! Please fork the repository and submit a pull request.
 
-## License
+## 📄 License
 
-See [LICENSE](LICENSE) for details.
+This project is licensed under the [MIT License](LICENSE).
+
+You are free to use, modify, and distribute this software for personal or commercial purposes, provided that the original license and copyright notice are retained.
+
 
 ---
 
@@ -229,7 +220,7 @@ LogLens consists of several main components:
 
 ### Clone the Repository
 
-```bash
+```
 git clone https://github.com/pexa8335/LogLens.git
 cd LogLens
 ```
@@ -237,18 +228,18 @@ cd LogLens
 ### Backend Setup
 
 1. (Recommended) Create a virtual environment:
-   ```bash
+   ```
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 2. Install dependencies:
-   ```bash
+   ```
    pip install -r requirements.txt
    ```
 
 3. Start the Flask backend:
-   ```bash
+   ```
    python app.py
    python worker.py
    python normal_traffic_generator.py
